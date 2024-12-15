@@ -1,49 +1,50 @@
 #include "micro.h"
-
-int distancestop = 0;
-
-void* distancecheck()
+   //gpio 18
+ 
+//old #define trigPin 21    //gpio 5
+//old #define echoPin 4    //gpio  J16-pin3 GPIO 23
+ 
+void* distancecheck(void* arg)
 {
-  int trig = 23 ;
-  int echo = 24 ;
-  int start_time, end_time ;
-  float distance ;
-  if (wiringPiSetup() == -1) exit(1) ;
+    int distance=0;
+    int pulse = 0;
+    int turnOn = 0;
+    long startTime;
+    long travelTime;
 
-  pinMode(trig, OUTPUT) ;
-  pinMode(echo , INPUT) ;
-
-
-
-  while(1) {
-    digitalWrite(trig, LOW) ;
-    delay(500) ;
-    digitalWrite(trig, HIGH) ;
-    delayMicroseconds(10) ;
-    digitalWrite(trig, LOW) ;
-    while (digitalRead(echo) == 0) ;
-    start_time = micros() ;
-    while (digitalRead(echo) == 1) ;
-    end_time = micros() ;
-    distance = (end_time - start_time) / 29. / 2. ;
-    printf("distance %.2f cm\n", distance) ;
-    if(distance < threshold){
-      soundmode = 2;
-      ultrasoundFlag = 1;
-      distancestop = 1
-      delay(500);
-        //뮤텍스 중단
+        
+    pinMode (trigPin, OUTPUT);
+    pinMode (echoPin, INPUT);
+    
+    while(1)
+    {
+        digitalWrite (trigPin, LOW);
+        usleep(2);
+        digitalWrite (trigPin, HIGH);
+        usleep(20);
+        digitalWrite (trigPin, LOW);
+        
+        while(digitalRead(echoPin) == LOW);
+        
+        startTime = micros();
+        
+        while(digitalRead(echoPin) == HIGH);
+        travelTime = micros() - startTime;
+        
+        int distance = travelTime / 58;
+        
+        //printf( "\nDistance: %dcm\n", distance);
+        delay(200);
+        if(distance < 10) {
+          soundmode = 2;
+          turnOn = 1;
+          stopFlag = 1;
+        }
+        else if(turnOn && distance >= 10){
+          soundmode = 3;
+          turnOn = 0;
+          stopFlag = 0;
+        }
     }
-    elif(distancestop && distance >= threshold){
-      soundmode = 3;
-      ultrasoundFlag = 0;
-      distancestop = 0;
-    }
-
-
-  }
-
-  return ;
-
 }
-
+ 

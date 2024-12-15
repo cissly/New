@@ -27,7 +27,8 @@ void enqueue(TaskQueue* q, void* value) {
     
     while(isFull(q)) {
         printf("큐가 가득 찼습니다!\n");
-        pthread_cond_wait(&q->Empty,&q->mutex);  
+        pthread_cond_wait(&q->Empty,&q->mutex); 
+        
     }
     if (isEmpty(q)) {
         q->front = 0; // 첫 번째 요소 추가 시 front 초기화
