@@ -78,8 +78,6 @@ while True:
     mid = [red_2_percentage, red_5_percentage, red_8_percentage]
     # 상태 결정
     state = "None"
-    # if abs(left_percentage - right_percentage) < 3:  # 빨간색 비율 차이가 10% 이하라면
-        # state = "go"
     if sum(front) < 30:
         front = "no"
     else:

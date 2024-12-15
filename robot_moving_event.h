@@ -43,6 +43,7 @@ extern int leftFlag;
 extern int rightFlag;
 extern int markerFlag;
 extern int ultrasoundFlag;
+extern int front;
 
 extern int nowRow;
 extern int nowCol;

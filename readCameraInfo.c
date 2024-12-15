@@ -115,17 +115,30 @@ void* watch_and_read_file(){
                     if ( strcmp(flag,"None") == 32){
                         continue;
                     }
-                    else if (strcmp(flag,"left") == 32){
+                    else if (strcmp(flag,"noleft") == 32){
                         leftFlag = 1;
                         rightFlag = 0;
+                        front = 0;
                     }
-                    else if (strcmp(flag,"right") == 32){
+                    else if (strcmp(flag,"noright") == 32){
                         leftFlag = 0;
                         rightFlag = 1; 
+                        front = 0;
+                    }
+                    else if (strcmp(flag,"yesleft") == 32){
+                        leftFlag = 1;
+                        rightFlag = 0;
+                        front = 1;
+                    }
+                    else if (strcmp(flag,"yesright") == 32){
+                        leftFlag = 0;
+                        rightFlag = 1; 
+                        front = 1;
                     }
                     else{
                         leftFlag = 0;
                         rightFlag = 0;
+                        front = 0;
                     }
                     printf("le : %d ri: %d",leftFlag,rightFlag);
 
